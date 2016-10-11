@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout :: head('Home')"></head>
+    <body>
+        <header th:replace="layout :: header"></header>
+        <nav th:replace="layout :: nav('projects')"></nav>
+        <section>
+            <div class="container wrapper">
+                <div class="project-list" th:each="project : ${projects}">
+                    <div class="project">
+                        <h2><a th:href="@{|/projects/${project.id}|}" th:text="${project.name}">Website Project</a></h2>
+                        <p th:text="${project.description}">Design and build a custom website</p>
+                        <span th:class="|tag  ${project.status}|" th:text="${project.status}">Active</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

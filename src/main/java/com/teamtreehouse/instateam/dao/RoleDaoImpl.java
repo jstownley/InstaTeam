@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -16,7 +17,7 @@ import java.util.List;
 public class RoleDaoImpl implements RoleDao {
     @Autowired
     private SessionFactory sessionFactory;
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override

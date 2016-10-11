@@ -1,12 +1,14 @@
 package com.teamtreehouse.instateam.dao;
 
 import com.teamtreehouse.instateam.model.Collaborator;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -16,7 +18,7 @@ import java.util.List;
 public class CollaboratorDaoImpl implements CollaboratorDao{
     @Autowired
     private SessionFactory sessionFactory;
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
@@ -37,7 +39,7 @@ public class CollaboratorDaoImpl implements CollaboratorDao{
     }
 
     @Override
-    public Collaborator findRoleById(Long id) {
+    public Collaborator findCollaboratorById(Long id) {
         // Open session
         Session session = sessionFactory.openSession();
 
@@ -45,6 +47,7 @@ public class CollaboratorDaoImpl implements CollaboratorDao{
         Collaborator collaborator = session.get(Collaborator.class, id);
 
         // Close session
+        Hibernate.initialize(collaborator.getRole());
         session.close();
         return collaborator;
     }

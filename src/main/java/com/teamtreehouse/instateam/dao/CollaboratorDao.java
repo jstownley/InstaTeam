@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CollaboratorDao {
     List<Collaborator> findAll();
-    Collaborator findRoleById(Long id);
+    Collaborator findCollaboratorById(Long id);
     void update(Collaborator collaborator);
     void delete(Collaborator collaborator);
 }

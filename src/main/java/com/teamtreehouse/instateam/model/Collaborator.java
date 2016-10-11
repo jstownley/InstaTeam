@@ -14,7 +14,7 @@ public class Collaborator {
     private Long id;
 
     @NotNull
-    @Pattern(regexp = "[A-Z]{1}[a-z]*\\s[A-Z]{1}[a-z]*")
+    @Pattern(regexp = "([A-Z]{1}[a-z]*\\s*)*")
     private String name;
 
     @NotNull

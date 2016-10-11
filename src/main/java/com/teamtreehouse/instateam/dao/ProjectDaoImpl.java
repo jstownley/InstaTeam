@@ -1,12 +1,16 @@
 package com.teamtreehouse.instateam.dao;
 
+import com.teamtreehouse.instateam.model.Collaborator;
 import com.teamtreehouse.instateam.model.Project;
+import com.teamtreehouse.instateam.model.Role;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -16,7 +20,7 @@ import java.util.List;
 public class ProjectDaoImpl implements ProjectDao {
     @Autowired
     private SessionFactory sessionFactory;
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
@@ -37,7 +41,7 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public Project findRoleById(Long id) {
+    public Project findProjectById(Long id) {
         // Open session
         Session session = sessionFactory.openSession();
 
@@ -45,6 +49,8 @@ public class ProjectDaoImpl implements ProjectDao {
         Project project = session.get(Project.class, id);
 
         // Close session
+        Hibernate.initialize(project.getCollaborators());
+        Hibernate.initialize(project.getRolesNeeded());
         session.close();
         return project;
     }

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(page_title)">
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" /><link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css' />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/normalize.css}" />
+    <link rel="stylesheet" th:href="@{/css/site.css}" />
+    <title th:text="'InstaTeam | ' + ${page_title}">Document</title>
+</head>
+<body>
+    <header th:fragment="header">
+        <div class="container">
+            <div class="site-header">
+                <a class="logo" th:href="@{/}">InstaTeam</a>
+                <a class="new-project button icon-left" th:href="@{/project/new}"><i class="material-icons">add</i> New Project</a>
+            </div>
+        </div>
+    </header>
+    <nav th:fragment="nav(selected_tab)">
+        <ul>
+            <li th:classappend="${selected_tab}=='projects'? 'selected' : ''"><a th:href="@{/}">Projects</a></li>
+            <li th:classappend="${selected_tab}=='collaborators'? 'selected' : ''"><a th:href="@{/collaborators}">Collaborators</a></li>
+            <li th:classappend="${selected_tab}=='roles'? 'selected' : ''"><a th:href="@{/roles}">Roles</a></li>
+        </ul>
+    </nav>
+
+    <div th:fragment="editRoleName" class="role-list">
+        <form th:action="@{|/roles/${role.id}/edit|}" method="post" th:object="${editRole}">
+            <input type="text" th:field="*{name}"/>
+            <input type="hidden" th:field="*{id}" />
+            <button type="submit" class="button">Update</button>
+        </form>
+    </div>
+
+    <div th:fragment="listRoleName" class="role-list">
+        <p class="primary" th:text="${role.name}">Developer</p>
+        <a th:href="@{|/roles/${role.id}/edit|}"><img th:src="@{/img/edit_img.png}" width="20px" height="20px"/></a>
+        <a th:href="@{|/roles/${role.id}/delete|}"><img th:src="@{/img/delete_img.png}" width="20px" height="20px"/></a>
+    </div>
+
+    <div th:fragment="editCollaboratorName" class="collaborator-list">
+        <form th:action="@{|/collaborators/${collaborator.id}/edit|}" method="post" th:object="${editCollaborator}">
+            <input type="text" th:field="*{name}" />
+            <input type="hidden" th:field="*{id}" />
+            <div class="custom-select">
+                <span class="dropdown-arrow"></span>
+                <select th:field="*{role.id}">
+                    <option th:each="thisRole : ${roles}" th:value="${thisRole.id}" th:text="${thisRole.name}">Designer</option>
+                </select>
+            </div>
+            <button type="submit" class="button">Update</button>
+        </form>
+    </div>
+
+    <div th:fragment="listCollaboratorName" class="collaborator-list">
+        <p class="title" th:text="${collaborator.name}">Collaborator Name</p>
+        <p class="primary" th:text="${collaborator.role.name}">Role Name</p>
+        <a th:href="@{|/collaborators/${collaborator.id}/edit|}"><img th:src="@{/img/edit_img.png}" width="20px" height="20px"/></a>
+        <a th:href="@{|/collaborators/${collaborator.id}/delete|}"><img th:src="@{/img/delete_img.png}" width="20px" height="20px"/></a>
+    </div>
+</body>
+</html>

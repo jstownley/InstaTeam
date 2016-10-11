@@ -2,10 +2,12 @@ package com.teamtreehouse.instateam.service;
 
 import com.teamtreehouse.instateam.dao.CollaboratorDao;
 import com.teamtreehouse.instateam.model.Collaborator;
+import com.teamtreehouse.instateam.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CollaboratorServiceImpl implements CollaboratorService {
@@ -18,8 +20,20 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     }
 
     @Override
-    public Collaborator findRoleById(Long id) {
-        return collaboratorDao.findRoleById(id);
+    public List<Collaborator> findCollaboratorsByRoleId(Long id) {
+        List<Collaborator> collaborators = findAll();
+        return collaborators.stream().filter(c->c.getRole().getId()==id).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collaborator findCollaboratorById(Long id) {
+        return collaboratorDao.findCollaboratorById(id);
+    }
+
+    @Override
+    public Role findRoleByCollaboratorId(Long id) {
+        Collaborator collaborator = collaboratorDao.findCollaboratorById(id);
+        return collaborator.getRole();
     }
 
     @Override

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head(${title})"></head>
+<body>
+<header th:replace="layout :: header"></header>
+<nav th:replace="layout :: nav('projects')"></nav>
+        <section>
+            <div class="container wrapper">
+                <form th:action="@{${action}}" method="post" th:object="${project}">
+                    <input type="hidden" th:field="*{id}" />
+                    <div>
+                        <label for="project_name"> Project Name:</label>
+                        <input type="text" id="project_name" th:placeholder="*{name}" th:field="*{name}"/>
+                    </div>
+                    <div>
+                        <label for="project_description">Project Description:</label>
+                        <textarea rows="4" id="project_description" th:placeholder="*{description}" th:field="*{description}"></textarea>
+                    </div>
+                    <div>
+                        <label for="project_status">Project Status:</label>
+                        <div class="custom-select">
+                        <span class="dropdown-arrow"></span>
+                            <select id="project_status" th:field="*{status}">
+                                <option value="active">Active</option>
+                                <option value="archived">Archived</option>
+                                <option value="not_started">Not Started</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="project_roles">Project Roles:</label>
+                        <ul class="checkbox-list" id="project_roles">
+                            <li th:each="role,stat : ${roles}">
+                                <input type="checkbox" th:field="*{rolesNeeded[__${stat.index}__].id}" th:value="${role.id}"/>
+                                <input type="hidden" th:field="*{rolesNeeded[__${stat.index}__].name}" />
+                                <span class="primary" th:text="${role.name}"> Developer</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="button" th:text="${submit}">Save</button>
+                        <a th:href="@{|/projects/*{id}|}" class="button button-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </body>
+</html>

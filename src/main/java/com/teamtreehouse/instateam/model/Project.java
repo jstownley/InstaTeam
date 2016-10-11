@@ -19,7 +19,7 @@ public class Project {
     @Pattern(regexp = "[a-zA-Z0-9\\s]*")
     private String description;
 
-    @Pattern(regexp = "[a-zA-Z0-9\\s]*")
+    @Pattern(regexp = "[a-zA-Z0-9_]*")
     private String status;
 
     @ManyToMany

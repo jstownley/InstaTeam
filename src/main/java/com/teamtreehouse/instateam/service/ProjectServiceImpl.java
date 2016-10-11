@@ -1,7 +1,9 @@
 package com.teamtreehouse.instateam.service;
 
 import com.teamtreehouse.instateam.dao.ProjectDao;
+import com.teamtreehouse.instateam.model.Collaborator;
 import com.teamtreehouse.instateam.model.Project;
+import com.teamtreehouse.instateam.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,10 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService{
     @Autowired
     private ProjectDao projectDao;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private CollaboratorService collaboratorService;
 
     @Override
     public List<Project> findAll() {
@@ -18,8 +24,20 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Project findRoleById(Long id) {
-        return projectDao.findRoleById(id);
+    public List<Collaborator> findCollaboratorsByProjectId(Long id) {
+        Project project = projectDao.findProjectById(id);
+        return project.getCollaborators();
+    }
+
+    @Override
+    public List<Role> findRolesByProjectId(Long id) {
+        Project project = projectDao.findProjectById(id);
+        return project.getRolesNeeded();
+    }
+
+    @Override
+    public Project findProjectById(Long id) {
+        return projectDao.findProjectById(id);
     }
 
     @Override

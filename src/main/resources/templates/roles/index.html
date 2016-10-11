@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('Roles')"></head>
+<body>
+<header th:replace="layout :: header"></header>
+<nav th:replace="layout :: nav('roles')"></nav>
+        <section>
+            <div class="container wrapper">
+                <div class="non-form-list">
+                    <h2>Manage Roles</h2>
+                    <ul>
+                        <li th:each="role : ${roles}">
+                            <div th:replace="layout :: (${layoutAction}=='edit' and ${role.id}==${roleId}) ? 'editRoleName' : 'listRoleName'"></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="actions">
+                    <a th:href="@{/roles/add}" class="button">Add Role</a>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
