@@ -4,6 +4,7 @@ import com.teamtreehouse.instateam.model.Collaborator;
 import com.teamtreehouse.instateam.model.Role;
 import com.teamtreehouse.instateam.service.CollaboratorService;
 import com.teamtreehouse.instateam.service.RoleService;
+import com.teamtreehouse.instateam.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,19 +41,24 @@ public class CollaboratorController {
         model.addAttribute("collaborators", collaborators);
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("layoutAction", "edit");
-        model.addAttribute("editCollaborator", collaboratorService.findCollaboratorById(collaboratorId));
+        if (!model.containsAttribute("editCollaborator")) {
+            model.addAttribute("editCollaborator", collaboratorService.findCollaboratorById(collaboratorId));
+        }
         return "collaborators/index";
     }
 
     // Edit a collaborator
     @RequestMapping(value = "/collaborators/{collaboratorId}/edit", method = RequestMethod.POST)
-    public String editCollaborator(@Valid Collaborator collaborator, @PathVariable Long collaboratorId, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String editCollaborator(@PathVariable Long collaboratorId, @Valid Collaborator collaborator, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             // Include validation errors upon redirect
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.collaborator", result);
 
             // Add project if invalid data was received
-            redirectAttributes.addFlashAttribute("collaborator", collaborator);
+            redirectAttributes.addFlashAttribute("editCollaborator", collaborator);
+
+            // Add flash message with the error
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Invalid collaborator name or role.  Name must be alphanumeric and role must be selected from dropdown list.", FlashMessage.Status.FAILURE));
 
             // And redirect
             return String.format("redirect:/collaborators/%d/edit", collaboratorId);

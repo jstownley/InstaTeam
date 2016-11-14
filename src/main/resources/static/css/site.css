@@ -497,6 +497,46 @@ form .delete-collaborator .button {
     text-align: middle;
 }
 
+/* Form validation messages */
+.error input {
+    font-weight: bold;
+    color: #ac4343;
+    background-color: rgba(254,17,1,0.3);
+}
+
+.error .error-message {
+    border: 2px solid #ac4343;
+    border-radius: 0 0 6px 6px;
+    background-color: #ac4343;
+    color: rgb(254,251,251);
+    padding: 10px;
+}
+
+.flash {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    font-size: 1.1rem;
+}
+
+.flash.success {
+    background-color: #7f9e40;
+    color: #f3f6ee;
+}
+
+.flash.failure {
+    background-color: #ac4343;
+    color: #f2e2e2;
+}
+
+i[data-close] {
+    margin: 1rem;
+    color: #fff;
+    cursor: default;
+    cursor: pointer;
+}
+
 
 
 

@@ -2,6 +2,7 @@ package com.teamtreehouse.instateam.web.controller;
 
 import com.teamtreehouse.instateam.model.Role;
 import com.teamtreehouse.instateam.service.RoleService;
+import com.teamtreehouse.instateam.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,19 +36,24 @@ public class RoleController {
         List<Role> roles = roleService.findAll();
         model.addAttribute("roles", roles);
         model.addAttribute("layoutAction", "edit");
-        model.addAttribute("editRole", roleService.findRoleById(roleId));
+        if (!model.containsAttribute("editRole")) {
+            model.addAttribute("editRole", roleService.findRoleById(roleId));
+        }
         return "roles/index";
     }
 
     // Edit a role
     @RequestMapping(value = "/roles/{roleId}/edit", method = RequestMethod.POST)
-    public String editRole(@Valid Role role, @PathVariable Long roleId, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String editRole(@PathVariable Long roleId, @Valid Role role, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             // Include validation errors upon redirect
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.role", result);
 
             // Add project if invalid data was received
-            redirectAttributes.addFlashAttribute("role", role);
+            redirectAttributes.addFlashAttribute("editRole", role);
+
+            // Add flash message with the error
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Invalid role name.  Name must be alphanumeric.", FlashMessage.Status.FAILURE));
 
             // And redirect
             return String.format("redirect:/roles/%d/edit", roleId);
