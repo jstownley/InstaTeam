@@ -25,19 +25,19 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public List<Collaborator> findCollaboratorsByProjectId(Long id) {
-        Project project = projectDao.findProjectById(id);
+        Project project = projectDao.findById(id);
         return project.getCollaborators();
     }
 
     @Override
     public List<Role> findRolesByProjectId(Long id) {
-        Project project = projectDao.findProjectById(id);
+        Project project = projectDao.findById(id);
         return project.getRolesNeeded();
     }
 
     @Override
     public Project findProjectById(Long id) {
-        return projectDao.findProjectById(id);
+        return projectDao.findById(id);
     }
 
     @Override

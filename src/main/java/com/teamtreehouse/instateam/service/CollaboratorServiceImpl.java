@@ -27,12 +27,12 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     @Override
     public Collaborator findCollaboratorById(Long id) {
-        return collaboratorDao.findCollaboratorById(id);
+        return collaboratorDao.findById(id);
     }
 
     @Override
     public Role findRoleByCollaboratorId(Long id) {
-        Collaborator collaborator = collaboratorDao.findCollaboratorById(id);
+        Collaborator collaborator = collaboratorDao.findById(id);
         return collaborator.getRole();
     }
 
